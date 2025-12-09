@@ -13,6 +13,11 @@ FRAME_DELAY = 0.042  # 42 ms
 FRAME_WIDTH = 64
 FRAME_HEIGHT = 64
 
+BLUE_START = 16         # First row of blue area
+BLUE_HEIGHT = 48        # Height of the blue region
+DISPLAY_WIDTH = 128     # OLED width
+DISPLAY_HEIGHT = 64     # OLED height
+
 # -----------------------------
 # FRAME DATA (converted from Arduino PROGMEM)
 # Each frame is 512 bytes = 64x64 monochrome bitmap
@@ -56,12 +61,29 @@ frames = [
 # -----------------------------
 while True:
     for frame in frames:
-        # Convert byte array to a PIL image
         img = Image.frombytes("1", (FRAME_WIDTH, FRAME_HEIGHT), frame)
 
-        # Clear screen and center-frame on 128×64 display
-        full_img = Image.new("1", (128, 64))
-        full_img.paste(img, (32, 16))  # center horizontally
-
+        # --- SCALE DOWN IF NEEDED ---
+        if img.height > BLUE_HEIGHT:
+            scale = BLUE_HEIGHT / img.height
+            new_width = int(img.width * scale)
+            new_height = int(img.height * scale)
+    
+            # Nearest is best for 1-bit images
+            img = img.resize((new_width, new_height), Image.NEAREST)
+    
+        # Create a blank 128×64 image
+        full_img = Image.new("1", (DISPLAY_WIDTH, DISPLAY_HEIGHT))
+    
+        # Center horizontally
+        x = (DISPLAY_WIDTH - img.width) // 2
+    
+        # Position at start of blue region
+        y = BLUE_START
+    
+        # Paste face into the blue section only
+        full_img.paste(img, (x, y))
+    
+        # Display frame
         device.display(full_img)
         time.sleep(FRAME_DELAY)
