@@ -61,7 +61,7 @@ while True:
 
         # Clear screen and center-frame on 128×64 display
         full_img = Image.new("1", (128, 64))
-        full_img.paste(img, (32, 0))  # center horizontally
+        full_img.paste(img, (32, 16))  # center horizontally
 
         device.display(full_img)
         time.sleep(FRAME_DELAY)
