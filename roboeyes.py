@@ -707,8 +707,8 @@ if __name__ == "__main__":
                 eyes.setMood(HAPPY)
             elif r < 0.016:
                 eyes.setMood(DEFAULT)
-            elif r < 0.02:
-                eyes.setSweat(not eyes.sweat)
+            #elif r < 0.02:
+                #eyes.setSweat(not eyes.sweat)
             time.sleep(0.005)  # small sleep to yield
     except KeyboardInterrupt:
         print("Exit")
