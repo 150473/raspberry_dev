@@ -672,7 +672,7 @@ class RoboEyes:
         if img.height > BLUE_HEIGHT:
             img = img.resize(
                 (int(img.width * BLUE_HEIGHT / img.height), BLUE_HEIGHT),
-                Image.ANTIALIAS
+                Image.Resampling.LANCZOS
             )
     
         # Create a blank 128x64 frame
