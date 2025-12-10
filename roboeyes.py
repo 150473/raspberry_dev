@@ -36,11 +36,6 @@ HAPPY = 3
 ON = True
 OFF = False
 
-BLUE_START_Y = 16
-BLUE_HEIGHT = 48
-DISPLAY_WIDTH = 128
-DISPLAY_HEIGHT = 64
-
 # position definitions (not strictly necessary but included for parity)
 N = 1; NE = 2; E = 3; SE = 4; S = 5; SW = 6; W = 7; NW = 8
 
@@ -667,27 +662,6 @@ class RoboEyes:
         pts = [(int(p1[0]), int(p1[1])), (int(p2[0]), int(p2[1])), (int(p3[0]), int(p3[1]))]
         draw.polygon(pts, fill=color)
 
-    def display_frame(self, img):
-        # Ensure image height fits in the blue region (max 48px)
-        if img.height > BLUE_HEIGHT:
-            img = img.resize(
-                (int(img.width * BLUE_HEIGHT / img.height), BLUE_HEIGHT),
-                Image.Resampling.LANCZOS
-            )
-    
-        # Create a blank 128x64 frame
-        full_img = Image.new("1", (DISPLAY_WIDTH, DISPLAY_HEIGHT))
-    
-        # Center horizontally, but force vertical position inside BLUE ONLY
-        x = (DISPLAY_WIDTH - img.width) // 2
-        y = BLUE_START_Y  # always draw starting at blue border (16px)
-    
-        full_img.paste(img, (x, y))
-    
-        if self.device:
-            self.device.display(full_img)
-
-
 
 # ---------------------------
 # Example usage (main)
@@ -719,7 +693,6 @@ if __name__ == "__main__":
     try:
         while True:
             eyes.update()
-            
             # Randomly trigger some actions
             r = random.random()
             if r < 0.003:
@@ -736,9 +709,6 @@ if __name__ == "__main__":
                 eyes.setMood(DEFAULT)
             elif r < 0.02:
                 eyes.setSweat(not eyes.sweat)
-            
-            img = eyes.draw_frame_to_image()  # generate next animation frame
-            eyes.display_frame(img) 
             time.sleep(0.005)  # small sleep to yield
     except KeyboardInterrupt:
         print("Exit")
