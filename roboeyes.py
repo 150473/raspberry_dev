@@ -45,7 +45,7 @@ def millis():
 
 
 class RoboEyes:
-    def __init__(self, device=None, width=128, height=64, frame_rate=50, monochrome=True):
+    def __init__(self, device=None, width=128, height=64, frame_rate=50, monochrome=False):
         """
         device: luma device or None. If None, you can still call draw_frame_to_image() to get PIL Image.
         width/height: screen pixel dimensions
