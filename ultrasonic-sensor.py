@@ -29,7 +29,6 @@ class UltraSonicSensor():
         GPIO.output(self.trigpin, GPIO.HIGH)
         time.sleep(10E-6)
         GPIO.output(self.trigpin, GPIO.LOW)
-        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
         while GPIO.input(self.echopin) == GPIO.LOW:
             pass
         

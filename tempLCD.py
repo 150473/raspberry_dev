@@ -1,8 +1,19 @@
+
+
+
+
+
+
 from machine import Pin, I2C, PWM
 from utime import sleep
 import ssd1306
-I2C_SCL = Pin(17)
-I2C_SDA = Pin(27)
+
+
+
+
+
+I2C_SCL = Pin(3)
+I2C_SDA = Pin(2)
 def oled_init(test=True):
     i2c = None
     oled = None

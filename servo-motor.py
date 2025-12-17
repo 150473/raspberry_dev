@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 from time import sleep
-pwmPin = 18
+
+pwmPin = 12 
 freq = 50
 
 GPIO.setmode(GPIO.BCM)
